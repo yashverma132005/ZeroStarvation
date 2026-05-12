@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Starvation — End Hunger, End Waste</title>
+    <meta name="description" content="Zero Starvation connects restaurants with surplus food to NGOs and individuals who redistribute it to people in need. Join us to end hunger and food waste.">
+    <meta name="theme-color" content="#2D6A4F">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Zero Starvation — End Hunger, End Waste">
+    <meta property="og:description" content="Connecting surplus food with those who need it most.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Leaflet Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+    <!-- App Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+
+        <!-- ═══════════════════════════════════════════════════════
+             NAVIGATION
+             ═══════════════════════════════════════════════════════ -->
+        <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+            <div class="container nav-container">
+                <a href="#/" class="logo" aria-label="Zero Starvation Home">
+                    <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+                    <span class="logo-text">Zero<span class="logo-accent">Starvation</span></span>
+                </a>
+
+                <div class="nav-links" id="nav-links">
+                    <a href="#/" class="nav-link active" data-page="home">Home</a>
+                    <a href="#/about" class="nav-link" data-page="about">About</a>
+                    <a href="#/donations" class="nav-link" data-page="donations">Browse Food</a>
+                    <a href="#/contact" class="nav-link" data-page="contact">Contact</a>
+                </div>
+
+                <div class="nav-actions" id="nav-actions">
+                    <!-- Logged out state (default) -->
+                    <div id="auth-buttons-guest">
+                        <a href="#/login" class="btn btn-ghost" id="nav-login-btn">Log In</a>
+                        <a href="#/signup" class="btn btn-primary" id="nav-signup-btn">Sign Up</a>
+                    </div>
+                    <!-- Logged in state (hidden by default) -->
+                    <div id="auth-buttons-user" class="hidden">
+                        <a href="#/dashboard" class="btn btn-ghost" id="nav-dashboard-btn">Dashboard</a>
+                        <div class="user-menu" id="user-menu">
+                            <button class="user-avatar-btn" id="user-avatar-btn" aria-label="User menu" aria-expanded="false">
+                                <span class="avatar-circle" id="avatar-circle">U</span>
+                            </button>
+                            <div class="user-dropdown hidden" id="user-dropdown">
+                                <div class="dropdown-header">
+                                    <span class="dropdown-name" id="dropdown-name">User</span>
+                                    <span class="dropdown-role" id="dropdown-role">Role</span>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <a href="#/profile" class="dropdown-item">
+                                    <i class="fa-solid fa-user"></i> Profile
+                                </a>
+                                <a href="#/dashboard" class="dropdown-item">
+                                    <i class="fa-solid fa-chart-simple"></i> Dashboard
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item logout-item" id="logout-btn">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobile-menu-btn" 
+                        aria-label="Toggle menu" aria-expanded="false">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+
+            <!-- Mobile menu -->
+            <div class="mobile-menu" id="mobile-menu" role="menu">
+                <a href="#/" class="mobile-link" data-page="home">Home</a>
+                <a href="#/about" class="mobile-link" data-page="about">About</a>
+                <a href="#/donations" class="mobile-link" data-page="donations">Browse Food</a>
+                <a href="#/contact" class="mobile-link" data-page="contact">Contact</a>
+                <div class="mobile-divider"></div>
+                <div id="mobile-auth-guest">
+                    <a href="#/login" class="mobile-link">Log In</a>
+                    <a href="#/signup" class="btn btn-primary mobile-signup-btn">Sign Up Free</a>
+                </div>
+                <div id="mobile-auth-user" class="hidden">
+                    <a href="#/dashboard" class="mobile-link">Dashboard</a>
+                    <a href="#/profile" class="mobile-link">Profile</a>
+                    <button class="mobile-link mobile-logout" id="mobile-logout-btn">Log Out</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ═══════════════════════════════════════════════════════
+             MAIN CONTENT — Pages rendered via SPA router
+             ═══════════════════════════════════════════════════════ -->
+        <main id="main-content">
+
+            <!-- ─── HOME PAGE ─────────────────────────────────── -->
+            <div id="page-home" class="page">
+                <!-- Hero -->
+                <section class="hero" aria-label="Hero section">
+                    <div class="hero-bg-shapes">
+                        <div class="hero-shape shape-1"></div>
+                        <div class="hero-shape shape-2"></div>
+                        <div class="hero-shape shape-3"></div>
+                    </div>
+                    <div class="hero-float-icons">
+                        <span class="float-icon" style="top:15%;left:8%"><i class="fa-solid fa-bread-slice"></i></span>
+                        <span class="float-icon" style="top:25%;right:12%"><i class="fa-solid fa-bowl-food"></i></span>
+                        <span class="float-icon" style="bottom:20%;left:15%"><i class="fa-solid fa-plate-wheat"></i></span>
+                        <span class="float-icon" style="bottom:15%;right:8%"><i class="fa-solid fa-burger"></i></span>
+                    </div>
+                    <div class="container hero-content">
+                        <div class="hero-badge"><i class="fa-solid fa-earth-americas"></i> Fighting Food Waste & Hunger</div>
+                        <h1 class="hero-title">
+                            End Hunger,<br>
+                            <span class="hero-highlight">End Waste.</span>
+                        </h1>
+                        <p class="hero-description">
+                            Zero Starvation bridges the gap between food surplus and food scarcity. 
+                            We connect restaurants with NGOs to ensure leftover food reaches those 
+                            who need it most.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="#/signup" class="btn btn-primary btn-lg hero-cta">
+                                Start Donating Today
+                                <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                            </a>
+                            <a href="#/about" class="btn btn-outline btn-lg">
+                                Learn More
+                            </a>
+                        </div>
+                        <div class="hero-stats-mini">
+                            <div class="hero-stat-item">
+                                <span class="hero-stat-number">25K+</span>
+                                <span class="hero-stat-label">Meals Saved</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat-item">
+                                <span class="hero-stat-number">350+</span>
+                                <span class="hero-stat-label">Restaurants</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat-item">
+                                <span class="hero-stat-number">125+</span>
+                                <span class="hero-stat-label">NGOs</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- How It Works -->
+                <section class="section how-section" aria-label="How it works">
+                    <div class="container">
+                        <div class="section-badge">Simple Process</div>
+                        <h2 class="section-title">How It Works</h2>
+                        <p class="section-subtitle">Three simple steps to turn food waste into hope</p>
+                        <div class="steps-grid">
+                            <div class="step-card">
+                                <div class="step-number">1</div>
+                                <div class="step-icon"><i class="fa-solid fa-utensils"></i></div>
+                                <h3 class="step-title">Restaurants Post</h3>
+                                <p class="step-desc">Restaurants post their available leftover food with quantity, location, and pickup time details.</p>
+                            </div>
+                            <div class="step-connector">
+                                <div class="connector-line"></div>
+                                <div class="connector-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-number">2</div>
+                                <div class="step-icon"><i class="fa-solid fa-building-ngo"></i></div>
+                                <h3 class="step-title">NGOs Connect</h3>
+                                <p class="step-desc">Verified NGOs browse available donations and claim food that matches their distribution needs.</p>
+                            </div>
+                            <div class="step-connector">
+                                <div class="connector-line"></div>
+                                <div class="connector-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-number">3</div>
+                                <div class="step-icon"><i class="fa-solid fa-heart"></i></div>
+                                <h3 class="step-title">People Are Fed</h3>
+                                <p class="step-desc">NGOs collect the food and distribute it to shelters and communities in need.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Impact Stats -->
+                <section class="section stats-section" aria-label="Our impact">
+                    <div class="container">
+                        <div class="section-badge">Our Impact</div>
+                        <h2 class="section-title">Making a Real Difference</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap green"><i class="fa-solid fa-box-open"></i></div>
+                                <div class="stat-number" data-count="25000">0</div>
+                                <div class="stat-label">Meals Donated</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap warm"><i class="fa-solid fa-utensils"></i></div>
+                                <div class="stat-number" data-count="350">0</div>
+                                <div class="stat-label">Restaurant Partners</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap blue"><i class="fa-solid fa-building"></i></div>
+                                <div class="stat-number" data-count="125">0</div>
+                                <div class="stat-label">NGO Partners</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrap purple"><i class="fa-solid fa-users"></i></div>
+                                <div class="stat-number" data-count="50000">0</div>
+                                <div class="stat-label">People Fed</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA Section -->
+                <section class="section cta-section" aria-label="Call to action">
+                    <div class="container cta-content">
+                        <h2 class="cta-title">Ready to Make a Difference?</h2>
+                        <p class="cta-desc">Join our community of changemakers fighting hunger and food waste. Every meal saved is a life touched.</p>
+                        <div class="cta-buttons">
+                            <a href="#/signup" class="btn btn-white btn-lg">
+                                Get Started Now
+                                <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── ABOUT PAGE ────────────────────────────────── -->
+            <div id="page-about" class="page hidden">
+                <section class="page-hero about-hero">
+                    <div class="container">
+                        <div class="section-badge">Our Story</div>
+                        <h1 class="page-hero-title">About Zero Starvation</h1>
+                        <p class="page-hero-desc">
+                            We believe in a world where no one goes hungry while perfectly good food 
+                            goes to waste. Our mission is to create sustainable connections between 
+                            food surplus and food scarcity.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <div class="mission-grid">
+                            <div class="mission-card">
+                                <div class="mission-icon-wrap warm"><i class="fa-solid fa-bullseye"></i></div>
+                                <h2 class="mission-title">Our Mission</h2>
+                                <p class="mission-desc">
+                                    To eliminate food waste and hunger by creating an efficient, 
+                                    technology-driven platform that connects food donors with 
+                                    organizations serving vulnerable communities. We strive to build 
+                                    a sustainable ecosystem where excess food becomes a resource for hope.
+                                </p>
+                            </div>
+                            <div class="mission-card">
+                                <div class="mission-icon-wrap blue"><i class="fa-solid fa-earth-americas"></i></div>
+                                <h2 class="mission-title">Our Vision</h2>
+                                <p class="mission-desc">
+                                    A world where food security is guaranteed for all, where communities 
+                                    work together to ensure that nutritious food reaches every person in 
+                                    need, and where food waste becomes a thing of the past through 
+                                    collaborative action and shared responsibility.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section section-alt">
+                    <div class="container">
+                        <div class="section-badge">The Challenge</div>
+                        <h2 class="section-title">The Problem We're Solving</h2>
+                        <div class="problem-grid">
+                            <div class="problem-card problem-red">
+                                <div class="problem-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <h3>Food Waste Crisis</h3>
+                                <p>India wastes 67 million tonnes of food annually — enough to feed the entire state of Bihar for a year. Restaurants alone contribute significantly, with perfectly edible food ending up in landfills daily.</p>
+                            </div>
+                            <div class="problem-card problem-blue">
+                                <div class="problem-icon"><i class="fa-solid fa-heart-crack"></i></div>
+                                <h3>Hunger Crisis</h3>
+                                <p>Over 194 million people in India are undernourished, including millions of children who go to bed hungry every night. Many NGOs struggle to find consistent, reliable sources of food.</p>
+                            </div>
+                        </div>
+                        <div class="solution-card">
+                            <div class="solution-icon"><i class="fa-solid fa-seedling"></i></div>
+                            <h3>Our Solution</h3>
+                            <p>Zero Starvation creates a direct bridge between these two problems, turning food waste into food security through technology, community partnerships, and shared compassion.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <div class="section-badge">What Drives Us</div>
+                        <h2 class="section-title">Our Values</h2>
+                        <div class="values-grid">
+                            <div class="value-card">
+                                <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+                                <h3>Compassion</h3>
+                                <p>Every action we take is driven by genuine care for human dignity and the belief that access to food is a fundamental right.</p>
+                            </div>
+                            <div class="value-card">
+                                <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                <h3>Sustainability</h3>
+                                <p>We're committed to creating long-term solutions that protect our environment while addressing social challenges.</p>
+                            </div>
+                            <div class="value-card">
+                                <div class="value-icon"><i class="fa-solid fa-people-group"></i></div>
+                                <h3>Community</h3>
+                                <p>We believe in the power of collective action and building strong partnerships between businesses and social organizations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── CONTACT PAGE ──────────────────────────────── -->
+            <div id="page-contact" class="page hidden">
+                <section class="page-hero contact-hero">
+                    <div class="container">
+                        <div class="section-badge">Reach Out</div>
+                        <h1 class="page-hero-title">Contact Us</h1>
+                        <p class="page-hero-desc">Have questions? Want to partner with us? We'd love to hear from you.</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <div class="contact-grid">
+                            <div class="contact-form-card">
+                                <h2>Send us a Message</h2>
+                                <form id="contact-form" novalidate>
+                                    <div class="form-group">
+                                        <label for="contact-name" class="form-label">Name</label>
+                                        <input type="text" id="contact-name" class="form-input" placeholder="Your full name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact-email" class="form-label">Email</label>
+                                        <input type="email" id="contact-email" class="form-input" placeholder="your.email@example.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact-subject" class="form-label">Subject</label>
+                                        <select id="contact-subject" class="form-select">
+                                            <option value="">Select a topic</option>
+                                            <option>General Inquiry</option>
+                                            <option>Restaurant Partnership</option>
+                                            <option>NGO Partnership</option>
+                                            <option>Technical Support</option>
+                                            <option>Media Inquiry</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact-message" class="form-label">Message</label>
+                                        <textarea id="contact-message" class="form-textarea" placeholder="Tell us how we can help..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                                </form>
+                            </div>
+
+                            <div class="contact-info-col">
+                                <div class="info-card">
+                                    <h3>Get in Touch</h3>
+                                    <div class="contact-item">
+                                        <span class="ci-icon"><i class="fa-solid fa-envelope"></i></span>
+                                        <div>
+                                            <div class="ci-label">Email</div>
+                                            <div class="ci-value">hello@zerostarvation.org</div>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="ci-icon"><i class="fa-solid fa-phone"></i></span>
+                                        <div>
+                                            <div class="ci-label">Phone</div>
+                                            <div class="ci-value">+91 11 1234 5678</div>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="ci-icon"><i class="fa-solid fa-location-dot"></i></span>
+                                        <div>
+                                            <div class="ci-label">Address</div>
+                                            <div class="ci-value">123 Social Impact Street<br>New Delhi, 110001</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-card">
+                                    <h3>Partnership Inquiries</h3>
+                                    <p class="info-desc">Interested in becoming a restaurant or NGO partner? We'd love to discuss how we can work together.</p>
+                                    <a href="#/get-involved" class="btn btn-secondary">Learn About Partnerships</a>
+                                </div>
+                                <div class="info-card info-card-warm">
+                                    <h3>Office Hours</h3>
+                                    <div class="office-hours">
+                                        <div>Monday – Friday: 9:00 AM – 6:00 PM</div>
+                                        <div>Saturday: 10:00 AM – 4:00 PM</div>
+                                        <div>Sunday: Closed</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── GET INVOLVED PAGE ─────────────────────────── -->
+            <div id="page-get-involved" class="page hidden">
+                <section class="page-hero involved-hero">
+                    <div class="container">
+                        <div class="section-badge">Join the Movement</div>
+                        <h1 class="page-hero-title">Get Involved</h1>
+                        <p class="page-hero-desc">
+                            Whether you're a restaurant owner or running an NGO, there's a place 
+                            for you in our community.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <div class="partner-grid">
+                            <div class="partner-card partner-restaurant">
+                                <div class="partner-badge">For Restaurants</div>
+                                <div class="partner-icon-large"><i class="fa-solid fa-utensils"></i></div>
+                                <h2>Restaurant Partners</h2>
+                                <p class="partner-desc">Turn your leftover food into meals for those in need while reducing waste and building community goodwill.</p>
+                                <div class="benefits-list">
+                                    <div class="benefit-item">
+                                        <span class="benefit-check"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Reduce Food Waste</strong> — Divert surplus food from landfills</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-check"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Tax Benefits</strong> — Eligible for tax deductions on donations</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-check"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Community Impact</strong> — Build positive brand reputation</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-check"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Easy Process</strong> — Simple posting with verified NGO pickup</div>
+                                    </div>
+                                </div>
+                                <a href="#/signup?role=restaurant" class="btn btn-primary btn-full">
+                                    Join as Restaurant Partner
+                                </a>
+                            </div>
+
+                            <div class="partner-card partner-ngo">
+                                <div class="partner-badge partner-badge-blue">For NGOs</div>
+                                <div class="partner-icon-large"><i class="fa-solid fa-building-ngo"></i></div>
+                                <h2>NGO Partners</h2>
+                                <p class="partner-desc">Access fresh, quality food donations from local restaurants to support your feeding programs.</p>
+                                <div class="benefits-list">
+                                    <div class="benefit-item">
+                                        <span class="benefit-check benefit-check-blue"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Reliable Food Source</strong> — Consistent access to quality food</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-check benefit-check-blue"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Location-Based</strong> — Find donations near your area</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-check benefit-check-blue"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Direct Communication</strong> — Connect directly with donors</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-check benefit-check-blue"><i class="fa-solid fa-check"></i></span>
+                                        <div><strong>Free Platform</strong> — No cost to use our service</div>
+                                    </div>
+                                </div>
+                                <a href="#/signup?role=ngo" class="btn btn-secondary btn-full">
+                                    Join as NGO Partner
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── LOGIN PAGE ────────────────────────────────── -->
+            <div id="page-login" class="page hidden">
+                <section class="auth-section">
+                    <div class="auth-container">
+                        <div class="auth-card">
+                            <div class="auth-header">
+                                <a href="#/" class="auth-logo"><i class="fa-solid fa-leaf"></i> Zero Starvation</a>
+                                <h1 class="auth-title">Welcome Back</h1>
+                                <p class="auth-subtitle">Log in to your account</p>
+                            </div>
+                            <form id="login-form" novalidate>
+                                <div class="form-group">
+                                    <label for="login-email" class="form-label">Email Address</label>
+                                    <input type="email" id="login-email" class="form-input" 
+                                           placeholder="your.email@example.com" required
+                                           aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="login-password" class="form-label">Password</label>
+                                    <input type="password" id="login-password" class="form-input" 
+                                           placeholder="Enter your password" required
+                                           aria-required="true">
+                                </div>
+                                <div id="login-error" class="form-error hidden" role="alert"></div>
+                                <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-submit-btn">
+                                    <span class="btn-text">Log In</span>
+                                    <span class="btn-loader hidden"></span>
+                                </button>
+                            </form>
+                            <div class="auth-footer">
+                                Don't have an account? <a href="#/signup">Sign up here</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── SIGNUP PAGE ───────────────────────────────── -->
+            <div id="page-signup" class="page hidden">
+                <section class="auth-section">
+                    <div class="auth-container">
+                        <div class="auth-card auth-card-wide">
+                            <div class="auth-header">
+                                <a href="#/" class="auth-logo"><i class="fa-solid fa-leaf"></i> Zero Starvation</a>
+                                <h1 class="auth-title">Create Your Account</h1>
+                                <p class="auth-subtitle">Join our mission to end hunger</p>
+                            </div>
+
+                            <!-- Role selector -->
+                            <div class="role-selector" id="role-selector">
+                                <button class="role-option active" data-role="restaurant" id="role-restaurant">
+                                    <span class="role-icon"><i class="fa-solid fa-utensils"></i></span>
+                                    <span class="role-name">Restaurant</span>
+                                    <span class="role-desc">Donate surplus food</span>
+                                </button>
+                                <button class="role-option" data-role="ngo" id="role-ngo">
+                                    <span class="role-icon"><i class="fa-solid fa-building-ngo"></i></span>
+                                    <span class="role-name">NGO</span>
+                                    <span class="role-desc">Collect & distribute</span>
+                                </button>
+                                <button class="role-option" data-role="individual" id="role-individual">
+                                    <span class="role-icon"><i class="fa-solid fa-user"></i></span>
+                                    <span class="role-name">Individual</span>
+                                    <span class="role-desc">Volunteer</span>
+                                </button>
+                            </div>
+
+                            <form id="signup-form" novalidate>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="signup-name" class="form-label">Full Name</label>
+                                        <input type="text" id="signup-name" class="form-input" 
+                                               placeholder="Your full name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="signup-org" class="form-label" id="signup-org-label">Organization Name</label>
+                                        <input type="text" id="signup-org" class="form-input" 
+                                               placeholder="Restaurant or NGO name">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="signup-email" class="form-label">Email Address</label>
+                                        <input type="email" id="signup-email" class="form-input" 
+                                               placeholder="your.email@example.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="signup-phone" class="form-label">Phone Number</label>
+                                        <input type="tel" id="signup-phone" class="form-input" 
+                                               placeholder="+91 XXXXX XXXXX">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signup-address" class="form-label">Address</label>
+                                    <input type="text" id="signup-address" class="form-input" 
+                                           placeholder="Your location / area">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="signup-password" class="form-label">Password</label>
+                                        <input type="password" id="signup-password" class="form-input" 
+                                               placeholder="Min. 6 characters" required minlength="6">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="signup-confirm" class="form-label">Confirm Password</label>
+                                        <input type="password" id="signup-confirm" class="form-input" 
+                                               placeholder="Confirm your password" required>
+                                    </div>
+                                </div>
+                                <div id="signup-error" class="form-error hidden" role="alert"></div>
+                                <button type="submit" class="btn btn-primary btn-full btn-lg" id="signup-submit-btn">
+                                    <span class="btn-text">Create Account</span>
+                                    <span class="btn-loader hidden"></span>
+                                </button>
+                            </form>
+                            <div class="auth-footer">
+                                Already have an account? <a href="#/login">Log in here</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── DASHBOARD PAGE ────────────────────────────── -->
+            <div id="page-dashboard" class="page hidden">
+                <div class="dashboard-page" id="dashboard-page">
+                    <div class="container">
+                        <!-- Dashboard header -->
+                        <div class="dash-header" id="dash-header">
+                            <div class="dash-welcome">
+                                <div class="dash-role-indicator" id="dash-role-indicator">
+                                    <span class="dash-role-icon" id="dash-role-icon"><i class="fa-solid fa-utensils"></i></span>
+                                    <span class="dash-role-label" id="dash-role-label">Restaurant</span>
+                                </div>
+                                <h1 class="dash-title" id="dash-title">Welcome back!</h1>
+                                <p class="dash-subtitle" id="dash-subtitle">Manage your food donations</p>
+                            </div>
+                            <div class="dash-stats-row" id="dash-stats-row">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Dashboard actions bar -->
+                        <div class="dash-actions" id="dash-actions">
+                            <h2 class="dash-section-title" id="dash-section-title">Your Donations</h2>
+                            <div class="dash-action-buttons">
+                                <button class="btn btn-primary" id="dash-post-btn" style="display:none;">
+                                    <i class="fa-solid fa-plus"></i> Post New Donation
+                                </button>
+                                <button class="btn btn-secondary" id="dash-request-btn" style="display:none;">
+                                    <i class="fa-solid fa-plus"></i> Post Food Request
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Tab navigation for filtering -->
+                        <div class="dash-tabs hidden" id="dash-tabs">
+                            <!-- Filled by JS per role -->
+                        </div>
+
+                        <!-- Primary cards container -->
+                        <div class="cards-grid" id="dash-cards">
+                            <div class="loading-placeholder" id="dash-loading">
+                                <div class="spinner"></div>
+                                <p>Loading your data...</p>
+                            </div>
+                            <div class="empty-state hidden" id="dash-empty">
+                                <div class="empty-icon"><i class="fa-solid fa-inbox"></i></div>
+                                <h3>Nothing here yet</h3>
+                                <p id="dash-empty-text">Start by posting your first donation!</p>
+                            </div>
+                        </div>
+
+                        <!-- Secondary section -->
+                        <div id="dash-secondary-section" class="hidden" style="margin-top: 3rem;">
+                            <div class="dash-actions">
+                                <h2 class="dash-section-title" id="dash-secondary-title">Section</h2>
+                            </div>
+                            <div class="cards-grid" id="dash-secondary-cards">
+                                <div class="empty-state hidden" id="dash-secondary-empty">
+                                    <div class="empty-icon"><i class="fa-solid fa-clipboard"></i></div>
+                                    <h3>No items</h3>
+                                    <p id="dash-secondary-empty-text">Nothing to show here.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tertiary section -->
+                        <div id="dash-tertiary-section" class="hidden" style="margin-top: 3rem;">
+                            <div class="dash-actions">
+                                <h2 class="dash-section-title" id="dash-tertiary-title">Section</h2>
+                            </div>
+                            <div class="cards-grid" id="dash-tertiary-cards">
+                                <div class="empty-state hidden" id="dash-tertiary-empty">
+                                    <div class="empty-icon"><i class="fa-solid fa-history"></i></div>
+                                    <h3>No items</h3>
+                                    <p id="dash-tertiary-empty-text">Nothing to show here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── BROWSE DONATIONS PAGE ─────────────────────── -->
+            <div id="page-donations" class="page hidden">
+                <section class="page-hero donations-hero">
+                    <div class="container">
+                        <div class="section-badge">Available Now</div>
+                        <h1 class="page-hero-title">Browse Food Donations</h1>
+                        <p class="page-hero-desc">Find available food donations near you and help reduce waste</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <!-- Filters -->
+                        <div class="filter-bar" id="filter-bar">
+                            <div class="filter-group">
+                                <input type="text" class="form-input filter-input" id="filter-search" 
+                                       placeholder="Search food type...">
+                            </div>
+                            <div class="filter-group">
+                                <select class="form-select filter-select" id="filter-status">
+                                    <option value="available">Available</option>
+                                    <option value="all">All Status</option>
+                                    <option value="claimed">Claimed</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <button class="btn btn-ghost filter-map-toggle" id="toggle-map-btn">
+                                    <i class="fa-solid fa-map"></i> Toggle Map
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Map view (hidden by default) -->
+                        <div class="map-container hidden" id="donations-map-container">
+                            <div id="donations-map" class="map-view"></div>
+                        </div>
+
+                        <!-- Donation cards -->
+                        <div class="cards-grid" id="donations-grid">
+                            <div class="loading-placeholder" id="donations-loading">
+                                <div class="spinner"></div>
+                                <p>Loading donations...</p>
+                            </div>
+                            <div class="empty-state hidden" id="donations-empty">
+                                <div class="empty-icon"><i class="fa-solid fa-utensils"></i></div>
+                                <h3>No Donations Found</h3>
+                                <p>Check back soon — new donations are posted regularly!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── DONATION DETAIL PAGE ──────────────────────── -->
+            <div id="page-donation-detail" class="page hidden">
+                <section class="section">
+                    <div class="container">
+                        <a href="#/donations" class="back-link" id="detail-back-link"><i class="fa-solid fa-arrow-left"></i> Back to Donations</a>
+                        <div class="detail-grid" id="donation-detail-content">
+                            <div class="loading-placeholder" id="detail-loading">
+                                <div class="spinner"></div>
+                                <p>Loading donation details...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ─── PROFILE PAGE ──────────────────────────────── -->
+            <div id="page-profile" class="page hidden">
+                <div class="dashboard-page">
+                    <div class="container">
+                        <h1 class="page-title">Your Profile</h1>
+                        <div class="profile-grid">
+                            <div class="profile-card">
+                                <div class="profile-avatar-section">
+                                    <div class="profile-avatar" id="profile-avatar">U</div>
+                                    <h2 id="profile-display-name">User Name</h2>
+                                    <span class="role-badge" id="profile-role-badge">Role</span>
+                                </div>
+                                <div class="profile-info">
+                                    <div class="profile-info-item">
+                                        <span class="pi-label">Email</span>
+                                        <span class="pi-value" id="profile-email">--</span>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <span class="pi-label">Phone</span>
+                                        <span class="pi-value" id="profile-phone">--</span>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <span class="pi-label">Organization</span>
+                                        <span class="pi-value" id="profile-org">--</span>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <span class="pi-label">Address</span>
+                                        <span class="pi-value" id="profile-address">--</span>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <span class="pi-label">Joined</span>
+                                        <span class="pi-value" id="profile-joined">--</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-edit-card">
+                                <h2>Edit Profile</h2>
+                                <form id="profile-form" novalidate>
+                                    <div class="form-group">
+                                        <label for="profile-edit-name" class="form-label">Full Name</label>
+                                        <input type="text" id="profile-edit-name" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-edit-org" class="form-label">Organization</label>
+                                        <input type="text" id="profile-edit-org" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-edit-phone" class="form-label">Phone</label>
+                                        <input type="tel" id="profile-edit-phone" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-edit-address" class="form-label">Address</label>
+                                        <input type="text" id="profile-edit-address" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Location on Map</label>
+                                        <div id="profile-map" class="map-small"></div>
+                                        <p class="form-hint">Click the map to set your location</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full" id="profile-save-btn">
+                                        <span class="btn-text">Save Changes</span>
+                                        <span class="btn-loader hidden"></span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ═══════════════════════════════════════════════════════
+             FOOTER
+             ═══════════════════════════════════════════════════════ -->
+        <footer class="footer" id="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-about">
+                        <a href="#/" class="footer-logo"><i class="fa-solid fa-leaf"></i> Zero Starvation</a>
+                        <p>Bridging the gap between food surplus and food scarcity. Together, we can end hunger and reduce waste.</p>
+                    </div>
+                    <div class="footer-links-col">
+                        <h4>Quick Links</h4>
+                        <a href="#/">Home</a>
+                        <a href="#/about">About</a>
+                        <a href="#/donations">Browse Food</a>
+                        <a href="#/contact">Contact</a>
+                    </div>
+                    <div class="footer-links-col">
+                        <h4>Get Involved</h4>
+                        <a href="#/signup?role=restaurant">Restaurant Partners</a>
+                        <a href="#/signup?role=ngo">NGO Partners</a>
+                        <a href="#/get-involved">Learn More</a>
+                    </div>
+                    <div class="footer-links-col">
+                        <h4>Contact</h4>
+                        <p>hello@zerostarvation.org</p>
+                        <p>+91 11 1234 5678</p>
+                        <p>New Delhi, India</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Zero Starvation. All rights reserved. Made with <i class="fa-solid fa-heart" style="color: #52B788;"></i> for a hunger-free world.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MODALS
+         ═══════════════════════════════════════════════════════ -->
+
+    <!-- Donation Form Modal -->
+    <div id="modal-donation" class="modal-overlay hidden" role="dialog" aria-modal="true" 
+         aria-labelledby="modal-donation-title">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="modal-donation-title">Post Food Donation</h2>
+                <button class="modal-close" id="modal-donation-close" aria-label="Close">&times;</button>
+            </div>
+            <form id="donation-form" novalidate>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="donation-food-type" class="form-label">Food Type *</label>
+                        <input type="text" id="donation-food-type" class="form-input" 
+                               placeholder="e.g., Fresh vegetables, cooked meals" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="donation-quantity" class="form-label">Quantity *</label>
+                        <input type="text" id="donation-quantity" class="form-input" 
+                               placeholder="e.g., 50 servings, 10 kg" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="donation-description" class="form-label">Description</label>
+                    <textarea id="donation-description" class="form-textarea" 
+                              placeholder="Brief description of the food..." rows="2"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="donation-expiry" class="form-label">Expiry Time *</label>
+                        <input type="datetime-local" id="donation-expiry" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="donation-contact" class="form-label">Contact Phone *</label>
+                        <input type="tel" id="donation-contact" class="form-input" 
+                               placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="donation-address" class="form-label">Pickup Address *</label>
+                    <input type="text" id="donation-address" class="form-input" 
+                           placeholder="Full pickup address" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pickup Location on Map *</label>
+                    <div id="donation-map" class="map-small"></div>
+                    <p class="form-hint">Click on the map to set the pickup location</p>
+                    <input type="hidden" id="donation-lat">
+                    <input type="hidden" id="donation-lng">
+                </div>
+                <div id="donation-form-error" class="form-error hidden" role="alert"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="donation-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="donation-submit-btn">
+                        <span class="btn-text">Post Donation</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Request Form Modal -->
+    <div id="modal-request" class="modal-overlay hidden" role="dialog" aria-modal="true"
+         aria-labelledby="modal-request-title">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="modal-request-title">Post Food Request</h2>
+                <button class="modal-close" id="modal-request-close" aria-label="Close">&times;</button>
+            </div>
+            <form id="request-form" novalidate>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="request-need" class="form-label">Food Need *</label>
+                        <input type="text" id="request-need" class="form-input" 
+                               placeholder="e.g., Cooked meals for 100 people" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="request-quantity" class="form-label">Quantity</label>
+                        <input type="text" id="request-quantity" class="form-input" 
+                               placeholder="e.g., 100 servings">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="request-description" class="form-label">Description</label>
+                    <textarea id="request-description" class="form-textarea" 
+                              placeholder="Brief description of your feeding program..." rows="2"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="request-urgency" class="form-label">Priority</label>
+                        <select id="request-urgency" class="form-select">
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                            <option value="low">Low Priority</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="request-contact" class="form-label">Contact Phone *</label>
+                        <input type="tel" id="request-contact" class="form-input" 
+                               placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="request-address" class="form-label">Service Area *</label>
+                    <input type="text" id="request-address" class="form-input" 
+                           placeholder="Your service area" required>
+                </div>
+                <div id="request-form-error" class="form-error hidden" role="alert"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="request-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-secondary" id="request-submit-btn">
+                        <span class="btn-text">Post Request</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="modal-message" class="modal-overlay hidden" role="dialog" aria-modal="true"
+         aria-labelledby="modal-message-title">
+        <div class="modal-card modal-card-sm">
+            <div class="modal-header">
+                <h2 id="modal-message-title">Contact Donor</h2>
+                <button class="modal-close" id="modal-message-close" aria-label="Close">&times;</button>
+            </div>
+            <form id="message-form" novalidate>
+                <div class="form-group">
+                    <label for="message-content" class="form-label">Your Message</label>
+                    <textarea id="message-content" class="form-textarea" 
+                              placeholder="Hi, I'd like to pick up this donation..." rows="4" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="message-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="message-submit-btn">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         TOAST NOTIFICATION CONTAINER
+         ═══════════════════════════════════════════════════════ -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         LOADING OVERLAY
+         ═══════════════════════════════════════════════════════ -->
+    <div id="loading-overlay" class="loading-overlay hidden" role="status" aria-label="Loading">
+        <div class="loading-content">
+            <div class="spinner spinner-lg"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SCRIPTS
+         ═══════════════════════════════════════════════════════ -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoStarvation - End Hunger, End Waste</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <div class="logo" onclick="showPage('home')">
+                        <span class="logo-icon">♥</span>
+                        <span>NoStarvation</span>
+                    </div>
+                    
+                    <div class="nav-links">
+                        <button class="nav-link" onclick="showPage('home')" id="nav-home">Home</button>
+                        <button class="nav-link" onclick="showPage('about')" id="nav-about">About Us</button>
+                        <button class="nav-link" onclick="showPage('contact')" id="nav-contact">Contact</button>
+                        <button class="nav-link" onclick="showPage('get-involved')" id="nav-involved">Get Involved</button>
+                        
+                        <div id="auth-buttons">
+                            <button class="btn-primary" onclick="showPage('get-involved')">Join Us</button>
+                        </div>
+                    </div>
+
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+                </div>
+
+                <div class="mobile-menu" id="mobile-menu">
+                    <button class="nav-link" onclick="showPage('home'); toggleMobileMenu()">Home</button>
+                    <button class="nav-link" onclick="showPage('about'); toggleMobileMenu()">About Us</button>
+                    <button class="nav-link" onclick="showPage('contact'); toggleMobileMenu()">Contact</button>
+                    <button class="nav-link" onclick="showPage('get-involved'); toggleMobileMenu()">Get Involved</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Home Page -->
+        <div id="home-page" class="page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="food-icon">🍞</div>
+                <div class="food-icon">🥗</div>
+                <div class="food-icon">🍛</div>
+                <div class="food-icon">🥘</div>
+                
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>End Hunger, <span class="highlight">End Waste</span></h1>
+                        <p>
+                            NoStarvation bridges the gap between food surplus and food scarcity. We connect restaurants 
+                            with NGOs to ensure leftover food reaches those who need it most, creating a sustainable 
+                            solution to both hunger and food waste.
+                        </p>
+                        <div class="hero-buttons">
+                            <button class="hero-btn hero-btn-primary" onclick="showPage('get-involved')">
+                                Start Donating Today
+                            </button>
+                            <button class="hero-btn hero-btn-secondary" onclick="showPage('about')">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Impact Stats -->
+            <!-- <section class="stats-section">
+                <div class="container">
+                    <h2 class="section-header">Our Growing Impact</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon green">📦</div>
+                            <div class="stat-number green">25,000+</div>
+                            <div class="stat-label">Meals Donated</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon orange">👨‍🍳</div>
+                            <div class="stat-number orange">350+</div>
+                            <div class="stat-label">Restaurant Partners</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon blue">🏢</div>
+                            <div class="stat-number blue">125+</div>
+                            <div class="stat-label">NGO Partners</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon purple">👥</div>
+                            <div class="stat-number purple">50,000+</div>
+                            <div class="stat-label">People Fed</div>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+
+            <!-- How It Works -->
+            <section class="how-section">
+                <div class="container">
+                    <h2 class="section-header">How It Works</h2>
+                    <div class="how-grid">
+                        <div class="how-item">
+                            <div class="how-number orange">1</div>
+                            <h3>Restaurants Post</h3>
+                            <p>Restaurants post their available leftover food with quantity, location, and pickup time details.</p>
+                        </div>
+                        <div class="how-item">
+                            <div class="how-number blue">2</div>
+                            <h3>NGOs Connect</h3>
+                            <p>Verified NGOs browse available donations and claim food that matches their distribution needs.</p>
+                        </div>
+                        <div class="how-item">
+                            <div class="how-number green">3</div>
+                            <h3>People Are Fed</h3>
+                            <p>NGOs collect the food and distribute it to homeless shelters, slums, and communities in need.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section">
+                <div class="container">
+                    <h2>Ready to Make a Difference?</h2>
+                    <p>Join our community of changemakers fighting hunger and food waste.</p>
+                    <button class="cta-btn" onclick="showPage('get-involved')">
+                        Get Started Now →
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div id="about-page" class="page hidden">
+            <section class="about-hero">
+                <div class="container">
+                    <h1>About NoStarvation</h1>
+                    <p>
+                        We believe in a world where no one goes hungry while perfectly good food goes to waste. 
+                        Our mission is to create sustainable connections between food surplus and food scarcity.
+                    </p>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <div class="container">
+                    <div class="mission-vision">
+                        <div class="mission-item">
+                            <div class="mission-icon orange">🎯</div>
+                            <h2>Our Mission</h2>
+                            <p>
+                                To eliminate food waste and hunger by creating an efficient, technology-driven platform 
+                                that connects food donors with organizations serving vulnerable communities. We strive 
+                                to build a sustainable ecosystem where excess food becomes a resource for hope.
+                            </p>
+                        </div>
+                        <div class="mission-item">
+                            <div class="mission-icon blue">🌍</div>
+                            <h2>Our Vision</h2>
+                            <p>
+                                A world where food security is guaranteed for all, where communities work together 
+                                to ensure that nutritious food reaches every person in need, and where food waste 
+                                becomes a thing of the past through collaborative action and shared responsibility.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="problem-section">
+                <div class="container">
+                    <h2 class="section-header">The Problem We're Solving</h2>
+                    <div class="problem-grid">
+                        <div class="problem-card red">
+                            <h3>Food Waste Crisis</h3>
+                            <p>
+                                India wastes 67 million tonnes of food annually - enough to feed the entire state of Bihar for a year.
+                            </p>
+                            <p>
+                                Restaurants alone contribute significantly to this waste, with perfectly edible food 
+                                ending up in landfills daily.
+                            </p>
+                        </div>
+                        <div class="problem-card blue">
+                            <h3>Hunger Crisis</h3>
+                            <p>
+                                Over 194 million people in India are undernourished, including millions of children 
+                                who go to bed hungry every night.
+                            </p>
+                            <p>
+                                Many NGOs struggle to find consistent, reliable sources of food for their feeding programs.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-card green">
+                        <h3>Our Solution</h3>
+                        <p>
+                            NoStarvation creates a direct bridge between these two problems, turning food waste 
+                            into food security through technology, community partnerships, and shared compassion.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="values-section">
+                <div class="container">
+                    <h2 class="section-header">Our Values</h2>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <div class="value-icon purple">♥</div>
+                            <h3>Compassion</h3>
+                            <p>
+                                Every action we take is driven by genuine care for human dignity and the belief 
+                                that access to food is a fundamental right.
+                            </p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon green">🛡</div>
+                            <h3>Sustainability</h3>
+                            <p>
+                                We're committed to creating long-term solutions that protect our environment 
+                                while addressing social challenges.
+                            </p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon blue">👥</div>
+                            <h3>Community</h3>
+                            <p>
+                                We believe in the power of collective action and building strong partnerships 
+                                between businesses and social organizations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact-page" class="page hidden">
+            <section class="contact-hero">
+                <div class="container">
+                    <h1>Contact Us</h1>
+                    <p>Have questions? Want to partner with us? We'd love to hear from you.</p>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <div class="container">
+                    <div class="contact-content">
+                        <div class="contact-form">
+                            <h2>Send us a Message</h2>
+                            <form>
+                                <div class="form-group">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-input" placeholder="Your full name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" placeholder="your.email@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <select class="form-select">
+                                        <option>General Inquiry</option>
+                                        <option>Restaurant Partnership</option>
+                                        <option>NGO Partnership</option>
+                                        <option>Technical Support</option>
+                                        <option>Media Inquiry</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-textarea" placeholder="Tell us how we can help you..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                            </form>
+                        </div>
+
+                        <div class="contact-info">
+                            <div class="info-card">
+                                <h3>Get in Touch</h3>
+                                <div class="contact-item">
+                                    <span class="contact-icon">✉</span>
+                                    <div class="contact-details">
+                                        <div class="label">Email</div>
+                                        <div class="value">hello@nostarvation.org</div>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">📞</span>
+                                    <div class="contact-details">
+                                        <div class="label">Phone</div>
+                                        <div class="value">+91 11 1234 5678</div>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">📍</span>
+                                    <div class="contact-details">
+                                        <div class="label">Address</div>
+                                        <div class="value">123 Social Impact Street<br>New Delhi, 110001</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-card">
+                                <h3>Partnership Inquiries</h3>
+                                <p style="color: #666; margin-bottom: 1rem;">
+                                    Interested in becoming a restaurant or NGO partner? We'd love to discuss how 
+                                    we can work together to fight hunger and reduce food waste.
+                                </p>
+                                <button class="btn-primary" onclick="showPage('get-involved')" style="background: #2563eb;">
+                                    Learn About Partnerships
+                                </button>
+                            </div>
+
+                            <div style="background: #fff7ed; padding: 1.5rem; border-radius: 0.75rem;">
+                                <h3 style="color: #ea580c; margin-bottom: 0.5rem;">Office Hours</h3>
+                                <div style="color: #c2410c;">
+                                    <div>Monday - Friday: 9:00 AM - 6:00 PM</div>
+                                    <div>Saturday: 10:00 AM - 4:00 PM</div>
+                                    <div>Sunday: Closed</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Get Involved Page -->
+        <div id="get-involved-page" class="page hidden">
+            <section class="involved-hero">
+                <div class="container">
+                    <h1>Get Involved</h1>
+                    <p>
+                        Join our mission to end hunger and reduce food waste. Whether you're a restaurant owner 
+                        or running an NGO, there's a place for you in our community.
+                    </p>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <div class="container">
+                    <div class="involved-content">
+                        <div class="partner-card orange">
+                            <div class="partner-header">
+                                <div class="partner-icon orange">👨‍🍳</div>
+                                <h2>Restaurant Partners</h2>
+                                <p>
+                                    Turn your leftover food into meals for those in need while reducing waste and building community goodwill.
+                                </p>
+                            </div>
+
+                            <div class="benefits-list">
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Reduce Food Waste</div>
+                                        <div class="desc">Divert surplus food from landfills to hungry people</div>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Tax Benefits</div>
+                                        <div class="desc">Eligible for tax deductions on food donations</div>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Community Impact</div>
+                                        <div class="desc">Build positive brand reputation and customer loyalty</div>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Easy Process</div>
+                                        <div class="desc">Simple posting system with verified NGO pickup</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="partner-btn orange" onclick="showLogin('restaurant')">
+                                Join as Restaurant Partner
+                            </button>
+                        </div>
+
+                        <div class="partner-card blue">
+                            <div class="partner-header">
+                                <div class="partner-icon blue">🏢</div>
+                                <h2>NGO Partners</h2>
+                                <p>
+                                    Access fresh, quality food donations from local restaurants to support your feeding programs and community outreach.
+                                </p>
+                            </div>
+
+                            <div class="benefits-list">
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Reliable Food Source</div>
+                                        <div class="desc">Consistent access to quality food donations</div>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Location-Based Matching</div>
+                                        <div class="desc">Find donations near your service areas</div>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Direct Communication</div>
+                                        <div class="desc">Connect directly with restaurant donors</div>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-check">✓</span>
+                                    <div class="benefit-content">
+                                        <div class="title">Free Platform</div>
+                                        <div class="desc">No cost to use our donation matching service</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="partner-btn blue" onclick="showLogin('ngo')">
+                                Join as NGO Partner
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Restaurant Dashboard -->
+        <div id="restaurant-dashboard" class="page hidden">
+            <div class="dashboard">
+                <div class="container" style="padding: 2rem 1rem;">
+                    <div class="dashboard-header">
+                        <div>
+                            <h1 class="dashboard-title">Welcome back, Golden Spoon Restaurant!</h1>
+                            <p class="dashboard-subtitle">Manage your food donations and connect with local NGOs.</p>
+                        </div>
+                        <div class="dashboard-stat">
+                            <div class="number">12</div>
+                            <div class="label">Total Donations</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header-with-btn">
+                        <h2 style="font-size: 1.5rem; font-weight: bold; color: #333;">Your Food Donations</h2>
+                        <button class="btn-primary" onclick="showDonationForm()">
+                            + Post New Donation
+                        </button>
+                    </div>
+
+                    <div id="restaurant-donations">
+                        <!-- Donations will be populated by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h2 style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 1.5rem;">NGO Food Requests in Your Area</h2>
+                        <div id="ngo-requests">
+                            <!-- Requests will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NGO Dashboard -->
+        <div id="ngo-dashboard" class="page hidden">
+            <div class="dashboard">
+                <div class="container" style="padding: 2rem 1rem;">
+                    <div class="dashboard-header">
+                        <div>
+                            <h1 class="dashboard-title">Welcome back, Delhi Food Bank!</h1>
+                            <p class="dashboard-subtitle">Find food donations and manage your feeding programs.</p>
+                        </div>
+                        <div class="dashboard-stat">
+                            <div class="number" style="color: #2563eb;">8</div>
+                            <div class="label">Foods Claimed</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header-with-btn">
+                        <h2 style="font-size: 1.5rem; font-weight: bold; color: #333;">Available Food Donations</h2>
+                        <button class="btn-primary" onclick="showRequestForm()" style="background: #2563eb;">
+                            + Post Food Request
+                        </button>
+                    </div>
+
+                    <div id="ngo-donations">
+                        <!-- Donations will be populated by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h2 style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 1.5rem;">Your Active Requests</h2>
+                        <div id="ngo-active-requests">
+                            <!-- Requests will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div id="login-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-icon" id="login-icon">👨‍🍳</div>
+                    <h2 class="modal-title" id="login-title">Restaurant Login</h2>
+                    <p class="modal-subtitle" id="login-subtitle">Access your restaurant dashboard</p>
+                </div>
+
+                <div id="ngo-login-fields">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" placeholder="your.email@example.com" id="login-email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" placeholder="Enter your password" id="login-password">
+                    </div>
+                </div>
+
+                <div id="rest-login-fields" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" id="login-phone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">OTP</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" class="form-input" placeholder="Enter 4-digit OTP" id="login-otp">
+                            <button class="btn-primary" onclick="sendOtp()" style="white-space: nowrap; padding: 0.5rem 1rem;">Send OTP</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" onclick="hideLogin()">Cancel</button>
+                    <button class="modal-btn primary" onclick="handleLogin()" id="login-submit">Login</button>
+                </div>
+
+                <div class="signup-link">
+                    Don't have an account?
+                    <button>Sign up here</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donation Form Modal -->
+        <div id="donation-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <h3 style="font-size: 1.25rem; font-weight: bold; color: #333; margin-bottom: 1rem;">Post Food Donation</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Food Type</label>
+                    <input type="text" class="form-input" placeholder="e.g., Fresh vegetables, cooked meals" id="donation-food-type">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantity</label>
+                    <input type="text" class="form-input" placeholder="e.g., 50 servings, 10 kg" id="donation-quantity">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Expiry Time</label>
+                    <input type="text" class="form-input" placeholder="e.g., Today 8 PM, Tomorrow 2 PM" id="donation-expiry">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pickup Location</label>
+                    <input type="text" class="form-input" placeholder="Your restaurant area" id="donation-location">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contact Number</label>
+                    <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" id="donation-contact">
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" onclick="hideDonationForm()">Cancel</button>
+                    <button class="modal-btn primary" onclick="addDonation()">Post Donation</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Request Form Modal -->
+        <div id="request-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <h3 style="font-size: 1.25rem; font-weight: bold; color: #333; margin-bottom: 1rem;">Post Food Request</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Food Need</label>
+                    <input type="text" class="form-input" placeholder="e.g., Cooked meals for 100 people" id="request-need">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" placeholder="Brief description of your feeding program" id="request-description" style="min-height: 80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-input" placeholder="Your service area" id="request-location">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select class="form-select" id="request-urgency">
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contact Number</label>
+                    <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" id="request-contact">
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" onclick="hideRequestForm()">Cancel</button>
+                    <button class="modal-btn blue" onclick="addRequest()">Post Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script>
+        let currentPage = 'home';
+        let userType = null;
+        let isLoggedIn = false;
+        let loginType = '';
+        
+        let donations = [
+            {
+                id: 1,
+                restaurant: "Golden Spoon Restaurant",
+                foodType: "Fresh Vegetables & Bread",
+                quantity: "50 servings",
+                expiry: "Today 8 PM",
+                location: "Downtown Delhi",
+                contact: "+91 98765 43210",
+                status: "available",
+                posted: "2 hours ago"
+            },
+            {
+                id: 2,
+                restaurant: "Maharaja Palace",
+                foodType: "Cooked Rice & Curry",
+                quantity: "30 servings",
+                expiry: "Today 6 PM",
+                location: "Connaught Place",
+                contact: "+91 87654 32109",
+                status: "claimed",
+                claimedBy: "Delhi Food Bank",
+                posted: "4 hours ago"
+            }
+        ];
+
+        let requests = [
+            {
+                id: 1,
+                ngo: "Delhi Food Bank",
+                need: "Cooked meals for 100 people",
+                location: "Central Delhi",
+                urgency: "high",
+                contact: "+91 76543 21098",
+                description: "Evening meal distribution at homeless shelter"
+            },
+            {
+                id: 2,
+                ngo: "Hope Foundation",
+                need: "Fresh fruits and vegetables",
+                location: "South Delhi",
+                urgency: "medium",
+                contact: "+91 65432 10987",
+                description: "Weekly food distribution in slum areas"
+            }
+        ];
+
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            
+            // Remove active class from nav links
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            // Show selected page
+            if (page === 'dashboard') {
+                if (userType === 'restaurant') {
+                    document.getElementById('restaurant-dashboard').classList.remove('hidden');
+                    renderRestaurantDashboard();
+                } else if (userType === 'ngo') {
+                    document.getElementById('ngo-dashboard').classList.remove('hidden');
+                    renderNgoDashboard();
+                }
+            } else {
+                document.getElementById(page + '-page').classList.remove('hidden');
+                document.getElementById('nav-' + page).classList.add('active');
+            }
+            
+            currentPage = page;
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        }
+
+        function showLogin(type) {
+            loginType = type;
+            const modal = document.getElementById('login-modal');
+            const icon = document.getElementById('login-icon');
+            const title = document.getElementById('login-title');
+            const subtitle = document.getElementById('login-subtitle');
+            
+            if (type === 'restaurant') {
+                icon.textContent = '👨‍🍳';
+                title.textContent = 'Restaurant Login';
+                subtitle.textContent = 'Access your restaurant dashboard';
+            } else {
+                icon.textContent = '🏢';
+                title.textContent = 'NGO Login';
+                subtitle.textContent = 'Access your NGO dashboard';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function hideLogin() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (email && password) {
+                isLoggedIn = true;
+                userType = loginType;
+                hideLogin();
+                updateAuthUI();
+                showPage('dashboard');
+            }
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            userType = null;
+            updateAuthUI();
+            showPage('home');
+        }
+
+        function updateAuthUI() {
+            const authButtons = document.getElementById('auth-buttons');
+            if (isLoggedIn) {
+                authButtons.innerHTML = `
+                    <button class="btn-primary" onclick="showPage('dashboard')">Dashboard</button>
+                    <button class="nav-link" onclick="handleLogout()">Logout</button>
+                `;
+            } else {
+                authButtons.innerHTML = `
+                    <button class="btn-primary" onclick="showPage('get-involved')">Join Us</button>
+                `;
+            }
+        }
+
+        function showDonationForm() {
+            document.getElementById('donation-modal').classList.remove('hidden');
+        }
+
+        function hideDonationForm() {
+            document.getElementById('donation-modal').classList.add('hidden');
+            // Clear form
+            document.getElementById('donation-food-type').value = '';
+            document.getElementById('donation-quantity').value = '';
+            document.getElementById('donation-expiry').value = '';
+            document.getElementById('donation-location').value = '';
+            document.getElementById('donation-contact').value = '';
+        }
+
+        function addDonation() {
+            const foodType = document.getElementById('donation-food-type').value;
+            const quantity = document.getElementById('donation-quantity').value;
+            const expiry = document.getElementById('donation-expiry').value;
+            const location = document.getElementById('donation-location').value;
+            const contact = document.getElementById('donation-contact').value;
+            
+            if (foodType && quantity && expiry && location && contact) {
+                const newDonation = {
+                    id: donations.length + 1,
+                    restaurant: "Golden Spoon Restaurant",
+                    foodType: foodType,
+                    quantity: quantity,
+                    expiry: expiry,
+                    location: location,
+                    contact: contact,
+                    status: 'available',
+                    posted: 'Just now'
+                };
+                donations.unshift(newDonation);
+                hideDonationForm();
+                renderRestaurantDashboard();
+            }
+        }
+
+        function showRequestForm() {
+            document.getElementById('request-modal').classList.remove('hidden');
+        }
+
+        function hideRequestForm() {
+            document.getElementById('request-modal').classList.add('hidden');
+            // Clear form
+            document.getElementById('request-need').value = '';
+            document.getElementById('request-description').value = '';
+            document.getElementById('request-location').value = '';
+            document.getElementById('request-urgency').value = 'medium';
+            document.getElementById('request-contact').value = '';
+        }
+
+        function addRequest() {
+            const need = document.getElementById('request-need').value;
+            const description = document.getElementById('request-description').value;
+            const location = document.getElementById('request-location').value;
+            const urgency = document.getElementById('request-urgency').value;
+            const contact = document.getElementById('request-contact').value;
+            
+            if (need && description && location && contact) {
+                const newRequest = {
+                    id: requests.length + 1,
+                    ngo: "Delhi Food Bank",
+                    need: need,
+                    description: description,
+                    location: location,
+                    urgency: urgency,
+                    contact: contact
+                };
+                requests.unshift(newRequest);
+                hideRequestForm();
+                renderNgoDashboard();
+            }
+        }
+
+        function claimDonation(donationId, ngoName) {
+            donations = donations.map(donation => 
+                donation.id === donationId 
+                    ? { ...donation, status: 'claimed', claimedBy: ngoName }
+                    : donation
+            );
+            renderNgoDashboard();
+        }
+
+        function renderRestaurantDashboard() {
+            const donationsContainer = document.getElementById('restaurant-donations');
+            const requestsContainer = document.getElementById('ngo-requests');
+            
+            // Render restaurant's donations
+            const restaurantDonations = donations.filter(d => d.restaurant === "Golden Spoon Restaurant");
+            donationsContainer.innerHTML = restaurantDonations.map(donation => `
+                <div class="donation-card">
+                    <div class="donation-header">
+                        <div>
+                            <div class="donation-title">${donation.foodType}</div>
+                            <div class="donation-subtitle">${donation.quantity}</div>
+                        </div>
+                        <span class="status-badge ${donation.status}">
+                            ${donation.status === 'available' ? 'Available' : `Claimed by ${donation.claimedBy}`}
+                        </span>
+                    </div>
+                    
+                    <div class="donation-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">🕒</span>
+                            Expires: ${donation.expiry}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            ${donation.location}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📅</span>
+                            Posted: ${donation.posted}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render NGO requests
+            requestsContainer.innerHTML = requests.map(request => `
+                <div class="donation-card">
+                    <div class="donation-header">
+                        <div>
+                            <div class="donation-title">${request.ngo}</div>
+                            <div class="donation-subtitle">${request.need}</div>
+                            <p style="font-size: 0.875rem; color: #666; margin-top: 0.5rem;">${request.description}</p>
+                        </div>
+                        <span class="status-badge ${request.urgency === 'high' ? 'claimed' : 'available'}" style="background: ${request.urgency === 'high' ? '#fef2f2; color: #7f1d1d' : '#fef3c7; color: #92400e'};">
+                            ${request.urgency} priority
+                        </span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; font-size: 0.875rem; color: #666;">
+                            <span class="detail-icon">📍</span>
+                            ${request.location}
+                            <span class="detail-icon" style="margin-left: 1rem;">📞</span>
+                            ${request.contact}
+                        </div>
+                        <button style="background: #2563eb; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.875rem;">
+                            Contact NGO
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNgoDashboard() {
+            const donationsContainer = document.getElementById('ngo-donations');
+            const requestsContainer = document.getElementById('ngo-active-requests');
+            
+            // Render available donations
+            donationsContainer.innerHTML = donations.map(donation => `
+                <div class="donation-card">
+                    <div class="donation-header">
+                        <div>
+                            <div class="donation-title">${donation.restaurant}</div>
+                            <div style="font-size: 1.125rem; color: #374151; margin: 0.25rem 0;">${donation.foodType}</div>
+                            <div class="donation-subtitle">${donation.quantity}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge ${donation.status}">
+                                ${donation.status === 'available' ? 'Available' : `Claimed by ${donation.claimedBy}`}
+                            </span>
+                            <p style="font-size: 0.75rem; color: #666; margin-top: 0.25rem;">Posted: ${donation.posted}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="donation-details" style="margin-bottom: 1rem;">
+                        <div class="detail-item">
+                            <span class="detail-icon" style="color: #dc2626;">🕒</span>
+                            <span style="font-weight: 500;">Expires: ${donation.expiry}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            ${donation.location}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📞</span>
+                            ${donation.contact}
+                        </div>
+                    </div>
+
+                    ${donation.status === 'available' ? `
+                        <button class="claim-btn" onclick="claimDonation(${donation.id}, 'Delhi Food Bank')">
+                            ✓ Claim This Donation
+                        </button>
+                    ` : `
+                        <div class="claimed-text">
+                            ✗ Already claimed
+                        </div>
+                    `}
+                </div>
+            `).join('');
+
+            // Render NGO's requests
+            const ngoRequests = requests.filter(r => r.ngo === "Delhi Food Bank");
+            requestsContainer.innerHTML = ngoRequests.map(request => `
+                <div class="donation-card">
+                    <div class="donation-header">
+                        <div>
+                            <div class="donation-title">${request.need}</div>
+                            <div class="donation-subtitle">${request.description}</div>
+                        </div>
+                        <span class="status-badge ${request.urgency === 'high' ? 'claimed' : 'available'}" style="background: ${request.urgency === 'high' ? '#fef2f2; color: #7f1d1d' : '#fef3c7; color: #92400e'};">
+                            ${request.urgency} priority
+                        </span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; font-size: 0.875rem; color: #666;">
+                        <span class="detail-icon">📍</span>
+                        ${request.location}
+                        <span class="detail-icon" style="margin-left: 1rem;">📞</span>
+                        ${request.contact}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+        });
+    </script> -->
+
+
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js\dashboard-restaurant.js"></script>
+    <script type="module" src="js\dashboard-ngo.js"></script>
+
+</body>
+</html>

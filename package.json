@@ -1,0 +1,15 @@
+{
+  "name": "zero-starvation",
+  "version": "1.0.0",
+  "description": "Zero Starvation — Connecting surplus food with those in need",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cd backend && node --watch server.js",
+    "start": "cd backend && node server.js",
+    "install:backend": "cd backend && npm install",
+    "setup": "npm run install:backend"
+  },
+  "keywords": ["food-donation", "ngo", "sustainability", "supabase"],
+  "license": "MIT"
+}
